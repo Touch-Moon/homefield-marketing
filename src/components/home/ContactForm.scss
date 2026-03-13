@@ -1,0 +1,115 @@
+@use '../../styles/mixins' as *;
+
+.contact-form-section {
+  background: $color-white;
+  @include section-py(4rem, 6rem, 8rem);
+
+  &__inner { @include container; }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+    @include xl { grid-template-columns: repeat(2, 1fr); gap: 5rem; }
+  }
+
+  &__heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-heading;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  &__desc {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    @include md { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  &__field--full {
+    @include md { grid-column: 1 / -1; }
+  }
+
+  &__label {
+    display: block;
+    color: $color-dark;
+    font-family: var(--font-nav);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    background: $color-bg-light;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    color: $color-dark;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    outline: none;
+    transition: box-shadow 200ms;
+    &::placeholder { color: #999; }
+    &:focus { box-shadow: 0 0 0 2px rgba($color-dark, 0.2); }
+  }
+
+  &__textarea { resize: none; }
+
+  &__submit-wrap {
+    @include md { grid-column: 1 / -1; }
+    margin-top: 0.5rem;
+  }
+
+  &__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: $color-dark;
+    color: $color-white;
+    border: none;
+    border-radius: 17px;
+    padding: 0 1rem;
+    height: 35px;
+    font-family: var(--font-nav);
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 200ms;
+    &:hover    { opacity: 0.8; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  &__message {
+    font-family: var(--font-nav);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    &--success { color: #16a34a; }
+    &--error   { color: #dc2626; }
+  }
+
+  &__recaptcha {
+    margin-top: 0.75rem;
+    color: #999;
+    font-family: var(--font-nav);
+    font-size: 13px;
+    a {
+      font-weight: 700;
+      color: $color-dark;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+}

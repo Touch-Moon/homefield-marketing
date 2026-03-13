@@ -1,0 +1,78 @@
+@use 'mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  Photo Hero shared override  —  .photo-hero-page scope
+//
+//  Used on pages:
+//    /solutions/websites
+//    /solutions/reputation-management
+//    /customer-journey
+//
+//  Mobile (< lg):
+//    • Use --hero-img CSS variable as ::before background (grayscale + darkened)
+//    • Hide <Image> element
+//  Desktop (lg+):
+//    • Remove ::before, show <Image>
+//    • Image bleeds 160px below hero bottom
+//    • hero z-index:2 / next section z-index:1 → bleed image appears above white background
+// ═══════════════════════════════════════════════════════════════════════════
+
+.photo-hero-page {
+
+  .sol__hero {
+    position: relative;
+    overflow: hidden;
+
+    // Mobile background layer — uses --hero-img CSS variable
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--hero-img); // JSX inline style 로 주입
+      background-size: cover;
+      background-position: center right;
+      filter: grayscale(1) brightness(0.35);
+      z-index: 0;
+    }
+
+    .sol__hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Mobile: hide <Image> (replaced by ::before background)
+    .sol__hero-image {
+      display: none;
+    }
+
+    @include lg {
+      overflow: visible; // allow bleed
+      z-index: 3; // stacks above cj-help(2) > cj-journey(1)
+
+      &::before {
+        display: none;
+      }
+
+      .sol__hero-inner {
+        position: static;
+      }
+
+      // Desktop: show <Image> + bottom bleed
+      .sol__hero-image {
+        display: flex;
+        align-items: flex-end;
+
+        img {
+          height: 880px !important;
+          max-height: none !important;
+          width: 100% !important;
+          max-width: none !important;
+          object-fit: cover !important;
+          object-position: center top !important;
+          padding-bottom: 0 !important;
+          margin-bottom: -160px; // 160px bleed
+        }
+      }
+    }
+  }
+}

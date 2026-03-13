@@ -1,0 +1,70 @@
+@use '../../styles/mixins' as *;
+
+// ─── Location grid (Province section + card grid) ──────────────────────────────
+// Measured from original:
+//   Province heading: superior-title 700 40px #333333
+//   card grid: 3 columns desktop / gap 32px
+//   section padding: pt 64px / pb 64px desktop
+
+.loc-grid {
+  background-color: $color-white;
+
+  &__inner {
+    @include container;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    @include lg {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+  }
+
+  // ── Province section ───────────────────────────────────────────────────────
+  &__province {
+    // gap between province groups
+    & + & {
+      margin-top: 48px;
+
+      @include lg {
+        margin-top: 72px;
+      }
+    }
+  }
+
+  // ── Province heading (Alberta / Manitoba / Saskatchewan) ──────────────────
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 24px 0;
+    line-height: 1.083;
+
+    @include lg {
+      font-size: 2.5rem;   // 40px desktop
+      margin-bottom: 32px;
+    }
+  }
+
+  // ── Cards grid ─────────────────────────────────────────────────────────────
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    @include md {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @include lg {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+  }
+}

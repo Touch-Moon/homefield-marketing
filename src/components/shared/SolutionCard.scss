@@ -1,0 +1,57 @@
+@use '../../styles/mixins' as *;
+
+.solution-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid $color-dark;
+  border-radius: 8px;
+  height: 158px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    padding: 0 1rem;
+    transition: opacity 400ms;
+  }
+
+  &:hover &__title { opacity: 0; }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: $color-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    opacity: 0;
+    transition: opacity 400ms;
+  }
+
+  &:hover &__overlay { opacity: 1; }
+
+  &__tagline {
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  &__arrow {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    color: $color-white;
+  }
+}

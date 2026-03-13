@@ -1,0 +1,78 @@
+// ── Shared variables & mixins ────────────────────────────────────────────────────────
+// Import via @use '../../styles/mixins' as *; in component SCSS files
+
+// SCSS Variables
+$color-dark: #101820;
+$color-gold: #DB9C00;
+$color-gold-alt: #DAAA00;
+$color-white: #ffffff;
+$color-body-text: #666666;
+$color-heading: #333333;
+$color-bg: #ffffff;
+$color-bg-light: #F0F0F0;
+$color-bg-gray: #F2F3F3;
+$color-border: #dddddd;
+
+// Font variables
+$font-primary:   var(--font-primary);    // Superior Title (serif)
+$font-secondary: var(--font-secondary);  // Montserrat (sans-serif)
+$font-body:      var(--font-body);       // Open Sans (sans-serif)
+
+$max-width: 1440px;
+$bp-md: 834px;
+$bp-lg: 1194px;
+$bp-xl: 1280px;
+
+// Breakpoint mixins
+@mixin md {
+  @media (min-width: #{$bp-md}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$bp-lg}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$bp-xl}) {
+    @content;
+  }
+}
+
+// Container mixin
+@mixin container {
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @include md {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @include xl {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+// Section padding mixin
+@mixin section-py($base: 4rem, $md: 6rem, $xl: 8rem) {
+  padding-top: $base;
+  padding-bottom: $base;
+
+  @include md {
+    padding-top: $md;
+    padding-bottom: $md;
+  }
+
+  @include xl {
+    padding-top: $xl;
+    padding-bottom: $xl;
+  }
+}

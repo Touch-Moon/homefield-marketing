@@ -1,0 +1,639 @@
+// ═══════════════════════════════════════════════════════════════════════════
+//  globals.scss — base, utility, and common page styles
+//  Component styles live in .scss files alongside each component
+// ═══════════════════════════════════════════════════════════════════════════
+
+@use '../styles/mixins' as *;
+
+// ── Accessibility ────────────────────────────────────────────────────────────
+
+// Skip navigation — visually hidden until keyboard-focused
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: $color-gold-alt;
+  color: $color-dark;
+  font-family: $font-secondary;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 0 0 4px 4px;
+  text-decoration: none;
+  transition: top 200ms ease;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+// Visually hidden but accessible to screen readers
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Focus ring — visible outline for keyboard navigation
+:focus-visible {
+  outline: 2px solid $color-gold-alt;
+  outline-offset: 3px;
+}
+
+// Remove default outline for mouse users only (via :focus-visible support)
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+// ── Font Faces ───────────────────────────────────────────────────────────────
+
+@font-face {
+  font-family: 'SuperiorTitle';
+  src: url('/fonts/SuperiorTitleRegular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SuperiorTitle';
+  src: url('/fonts/SuperiorTitleBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SuperiorTitle';
+  src: url('/fonts/SuperiorTitleBlack.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+// ── CSS Custom Properties ─────────────────────────────────────────────────────
+
+:root {
+  --color-dark:       #{$color-dark};
+  --color-gold:       #{$color-gold};
+  --color-white:      #{$color-white};
+  --color-body-text:  #{$color-body-text};
+  --color-heading:    #{$color-heading};
+  --color-bg:         #{$color-bg};
+  --color-bg-light:   #{$color-bg-light};
+  --color-border:     #{$color-border};
+
+  --font-primary: 'SuperiorTitle', 'Georgia', serif;
+
+  --fs-hero:  clamp(2.25rem,  calc(160 / 1440 * 100vw), 10rem);
+  --fs-h2:    clamp(1.75rem,  calc(64  / 1440 * 100vw), 4rem);
+  --fs-h3:    clamp(1.375rem, calc(40  / 1440 * 100vw), 2.5rem);
+  --fs-h4:    clamp(1.125rem, calc(24  / 1440 * 100vw), 1.5rem);
+  --fs-nav:    1rem;
+  --fs-body:   1rem;
+  --fs-small:  0.875rem;
+  --fs-badge:  0.75rem;
+}
+
+
+// ── Base Reset ────────────────────────────────────────────────────────────────
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  // When bouncing at top, overscroll area appears with same dark color as header/hero
+  background-color: $color-dark;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body {
+  // next/font/google variables are injected into body, so reference here
+  --font-secondary: var(--font-montserrat), 'Arial', sans-serif;
+  --font-body:      var(--font-open-sans), 'Arial', sans-serif;
+  --font-heading:   var(--font-primary);
+  --font-nav:       var(--font-secondary);
+
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: $color-body-text;
+  background-color: $color-bg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: $color-dark;
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0;
+}
+
+p { margin: 0; }
+a { color: inherit; }
+button { font-family: inherit; }
+img, video { max-width: 100%; display: block; }
+
+
+// ── Utility ───────────────────────────────────────────────────────────────────
+
+.opacity-0    { opacity: 0; }
+.select-none  { user-select: none; }
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+// Layout
+.main-content {
+  padding-top: 82px;
+  @include lg { padding-top: 112px; }
+  // padding-top area (header height) appears with same dark color as header
+  background-color: $color-dark;
+}
+
+.container { @include container; }
+
+// Fluid typography
+.text-hero { font-size: var(--fs-hero); }
+.text-h2   { font-size: var(--fs-h2); }
+.text-h3   { font-size: var(--fs-h3); }
+.text-h4   { font-size: var(--fs-h4); }
+
+
+// ── Page Hero (common dark header section) ─────────────────────────────────────────
+
+.page-hero {
+  background: $color-dark;
+  background-image:
+    linear-gradient(rgba(16, 24, 32, 0.72), rgba(16, 24, 32, 0.72)),
+    var(--page-hero-bg, none);
+  background-size: cover;
+  background-position: center;
+  // Measured from original: pt=96px / pb=96px (reduced on mobile)
+  padding-top: 56px;
+  padding-bottom: 56px;
+
+  @include lg {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  &__inner   { @include container; }
+
+  &__eyebrow {
+    display: block;
+    color: $color-gold;
+    font-family: var(--font-nav);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+  }
+
+  &__heading {
+    // Measured from original: 96px / line-height: 104px(≈1.083) / superior-title 700
+    font-size: clamp(2.5rem, calc(96 / 1440 * 100vw), 6rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.083;
+    margin: 0 0 2rem 0; // mb=32px → gap from subtitle
+    max-width: 48rem;
+  }
+
+  &__sub {
+    // Measured from original: 15px / line-height: 1.7 / white
+    color: $color-white;
+    font-family: var(--font-body);
+    font-size: 0.9375rem; // 15px
+    max-width: 42rem;
+    line-height: 1.7;
+  }
+}
+
+
+// ── Page Section ─────────────────────────────────────────────────────────────
+
+.page-section {
+  &--white { background: $color-white; @include section-py(4rem, 6rem, 8rem); }
+  &--light { background: $color-bg-light; @include section-py(4rem, 5rem, 5rem); }
+
+  &__inner  { @include container; }
+  &__narrow { max-width: 48rem; }
+}
+
+
+// ── Solutions page ──────────────────────────────────────────────────────────
+
+.solutions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  @include md { grid-template-columns: repeat(2, 1fr); }
+  @include xl { grid-template-columns: repeat(3, 1fr); }
+}
+
+
+// ── Solution [slug] page ────────────────────────────────────────────────────
+
+.solution-detail {
+  &__desc {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    max-width: 48rem;
+  }
+
+  &__actions {
+    margin-top: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__related {
+    background: $color-bg-light;
+    @include section-py(4rem, 5rem, 5rem);
+  }
+
+  &__related-inner    { @include container; }
+
+  &__related-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+
+  &__related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    @include md { grid-template-columns: repeat(2, 1fr); }
+    @include xl { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  &__related-card {
+    display: block;
+    border: 1px solid $color-border;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: $color-white;
+    text-decoration: none;
+    transition: border-color 300ms;
+    &:hover { border-color: $color-dark; }
+    h3 {
+      font-family: var(--font-heading);
+      font-size: var(--fs-h4);
+      font-weight: 700;
+      color: $color-dark;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: $color-body-text;
+      font-family: var(--font-body);
+      font-size: var(--fs-small);
+      line-height: 1.75;
+    }
+  }
+}
+
+
+// ── Project detail page → moved to ProjectHero.scss ───────────────────────────
+
+
+// ── About page ──────────────────────────────────────────────────────────────
+
+.about {
+  &__story { background: $color-white; @include section-py(4rem, 6rem, 8rem); }
+  &__story-inner { @include container; }
+
+  &__story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+    max-width: 72rem;
+    @include xl { grid-template-columns: repeat(2, 1fr); gap: 5rem; }
+  }
+
+  &__story-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  &__story-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+  }
+
+  &__values { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  &__value-item {
+    border-left: 2px solid $color-gold;
+    padding-left: 1.5rem;
+    h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: $color-dark;
+      font-size: var(--fs-h4);
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: $color-body-text;
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.75;
+    }
+  }
+
+  &__cta { background: $color-bg-light; @include section-py(4rem, 5rem, 5rem); }
+  &__cta-inner { @include container; }
+  &__cta-content { max-width: 28rem; }
+
+  &__cta-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  &__cta-body {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+}
+
+
+// ── Careers page ────────────────────────────────────────────────────────────
+
+.careers {
+  &__content { background: $color-white; @include section-py(4rem, 6rem, 8rem); }
+  &__inner   { @include container; }
+  &__body    { max-width: 48rem; }
+
+  &__heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  &__no-openings {
+    background: $color-bg-light;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: $color-dark;
+      font-size: var(--fs-h4);
+      margin-bottom: 0.75rem;
+    }
+    p {
+      color: $color-body-text;
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.75;
+    }
+  }
+}
+
+
+// ── Locations page ──────────────────────────────────────────────────────────
+
+.locations {
+  &__content { background: $color-white; @include section-py(4rem, 6rem, 8rem); }
+  &__inner   { @include container; }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 4rem;
+    @include md { grid-template-columns: repeat(2, 1fr); }
+    @include xl { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  &__card {
+    border: 1px solid $color-border;
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+
+  &__card-eyebrow {
+    display: block;
+    color: $color-gold;
+    font-family: var(--font-nav);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+  }
+
+  &__card-city {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+  }
+
+  &__card-province {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    margin-bottom: 1.5rem;
+  }
+
+  &__extra { max-width: 28rem; }
+
+  &__extra-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  &__extra-body {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+}
+
+
+// ── Customer Journey page ───────────────────────────────────────────────────
+
+.journey {
+  &__content { background: $color-white; @include section-py(4rem, 6rem, 8rem); }
+  &__inner   { @include container; }
+  &__stages  { max-width: 56rem; }
+
+  &__stage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    @include md { gap: 4rem; }
+  }
+
+  &__stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    border-bottom: 1px solid $color-border;
+    padding-bottom: 3rem;
+    @include md { grid-template-columns: auto 1fr; gap: 2.5rem; padding-bottom: 4rem; }
+    &:last-child { border-bottom: none; padding-bottom: 0; }
+  }
+
+  &__stage-number {
+    font-size: 4rem;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    color: $color-bg-light;
+    line-height: 1;
+    user-select: none;
+  }
+
+  &__stage-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  &__stage-body {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+  }
+
+  &__cta { background: $color-bg-light; @include section-py(4rem, 5rem, 5rem); }
+  &__cta-inner   { @include container; }
+  &__cta-content { max-width: 42rem; }
+
+  &__cta-heading {
+    font-size: var(--fs-h3);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  &__cta-body {
+    color: $color-body-text;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+}
+
+
+// ── 404 page ────────────────────────────────────────────────────────────────
+
+.not-found {
+  background: $color-dark;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 1.25rem;
+  @include md { padding-left: 2.5rem;  padding-right: 2.5rem; }
+  @include xl { padding-left: 5rem;    padding-right: 5rem; }
+
+  &__eyebrow {
+    display: block;
+    color: $color-gold;
+    font-family: var(--font-nav);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+  }
+
+  &__heading {
+    font-size: var(--fs-h2);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    max-width: 42rem;
+  }
+
+  &__body {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    max-width: 28rem;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}

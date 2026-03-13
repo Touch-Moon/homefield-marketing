@@ -1,0 +1,22 @@
+@use '../../styles/mixins' as *;
+
+.section-heading {
+  &__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.1;
+    &--h2   { font-size: var(--fs-h2); }
+    &--h3   { font-size: var(--fs-h3); }
+    &--dark  { color: $color-dark; }
+    &--light { color: $color-white; }
+  }
+
+  &__subtitle {
+    margin-top: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.7;
+    &--dark  { color: $color-body-text; }
+    &--light { color: rgba(255, 255, 255, 0.7); }
+  }
+}

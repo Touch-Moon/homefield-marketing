@@ -1,0 +1,87 @@
+@use '../../styles/mixins' as *;
+
+// ─── Single location card ────────────────────────────────────────────────────────────
+// Measured from original:
+//   bg: #101820 / border-radius: 8px / padding: 32px
+//   City: superior-title 700 32px white
+//   Address: Montserrat 600 16px #DAAA00 (gold)
+//   Phone/Email: Montserrat 400 15px white/light
+
+.loc-card {
+  background-color: $color-dark;
+  border-radius: 8px;
+  padding: 28px;
+
+  @include lg {
+    padding: 32px;
+  }
+
+  // ── City name ──────────────────────────────────────────────────────────────
+  &__city {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;    // 24px mobile
+    font-weight: 700;
+    color: $color-white;
+    margin: 0 0 12px 0;
+    line-height: 1.1;
+
+    @include lg {
+      font-size: 2rem;    // 32px desktop
+      margin-bottom: 16px;
+    }
+  }
+
+  // ── Address block ──────────────────────────────────────────────────────────
+  &__address {
+    font-style: normal;
+    margin: 0 0 16px 0;
+
+    p {
+      font-family: $font-secondary;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $color-gold-alt;
+      line-height: 1.5;
+      margin: 0;
+
+      @include lg {
+        font-size: 1rem;  // 16px desktop
+      }
+    }
+  }
+
+  // ── Contact list ───────────────────────────────────────────────────────────
+  &__contacts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__contact {
+    // nothing extra
+  }
+
+  &__link {
+    font-family: $font-secondary;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 150ms ease;
+
+    @include lg {
+      font-size: 0.9375rem; // 15px
+    }
+
+    &:hover {
+      color: $color-white;
+    }
+
+    &--email {
+      word-break: break-all;
+    }
+  }
+}

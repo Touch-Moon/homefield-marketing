@@ -1,0 +1,255 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/sol-hero';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  about-hero-page  — About Us hero
+//
+//  Measured from original:
+//    section h: 720px / bg: #101820 / overflow: visible (no bleed)
+//    image: 720px / object-fit: contain / object-position: center center
+//    H1: Superior Title 700 96px white
+//    body: Open Sans 400 15px rgba(white, 0.8) line-height 1.8
+// ═══════════════════════════════════════════════════════════════════════════
+
+.about-hero-page {
+
+  .sol__hero {
+    position: relative;
+    overflow: hidden;
+    // min-height: 560px (base) / 720px (lg+) → handled in _sol-hero.scss
+
+    // Mobile background layer
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--hero-img);
+      background-size: cover;
+      background-position: center right;
+      filter: grayscale(1) brightness(0.35);
+      z-index: 0;
+    }
+
+    .sol__hero-inner {
+      position: static;
+      z-index: 1;
+    }
+
+    .sol__hero-image {
+      display: none;
+    }
+
+    // Mobile: 1 column
+    .sol__hero-grid {
+      grid-template-columns: 1fr;
+      padding-bottom: 0;
+    }
+
+    @include lg {
+      overflow: visible; // image bleeds below section
+      z-index: 3;
+
+      &::before {
+        display: none;
+      }
+
+      .sol__hero-inner {
+        position: static;
+      }
+
+      .sol__hero-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+
+      // Desktop: 880px → -160px bleed downward (same pattern as careers)
+      .sol__hero-image {
+        display: flex;
+        align-items: flex-end;
+
+        img {
+          height: 880px !important;
+          max-height: none !important;
+          width: 100% !important;
+          max-width: none !important;
+          object-fit: cover !important;
+          object-position: center top !important;
+          padding-bottom: 0 !important;
+          margin-bottom: -160px !important;
+        }
+      }
+    }
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  about-story  — "Where we came from." section
+//
+//  Measured from original:
+//    bg: white / pt/pb: 142px
+//    single column, narrow text on left (~700px)
+//    H2: Superior Title 700 40px #101820
+//    body: 16px Montserrat 400, line-height 1.75
+//    link: "long history" → color blue (#1b76c1), no underline
+// ═══════════════════════════════════════════════════════════════════════════
+
+.about-story {
+  position: relative;
+  z-index: 1; // background rises above hero bleed image
+  background-color: $color-white;
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  @include lg {
+    padding-top: 142px;
+    padding-bottom: 142px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+
+    @include lg {
+      font-size: 40px;
+    }
+  }
+
+  &__body {
+    max-width: 700px;
+
+    p {
+      font-family: $font-secondary;
+      font-size: 16px;
+      font-weight: 400;
+      color: $color-dark;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+
+      &:last-child { margin-bottom: 0; }
+    }
+
+    a {
+      color: #1b76c1;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  about-why  — "Why work with us?" section
+//
+//  Measured from original:
+//    bg: #F2F3F3 / pt/pb: 142px
+//    layout: 2 columns (565px : 790px) ≈ 2fr 3fr
+//    left: H2 + subtitle + bullet list + closing text
+//    right: image 706×948px (border-radius 0, object-fit cover)
+//    H2: Superior Title 700 40px
+//    subtitle: Montserrat 400 16px
+//    li: 16px, line-height 26px
+//      strong: Montserrat 700
+// ═══════════════════════════════════════════════════════════════════════════
+
+.about-why {
+  background-color: #F2F3F3;
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  @include lg {
+    padding-top: 142px;
+    padding-bottom: 142px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+
+    @include lg {
+      grid-template-columns: 2fr 3fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+
+    @include lg {
+      font-size: 40px;
+    }
+  }
+
+  &__subtitle {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-dark;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  &__list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__list-item {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-dark;
+    line-height: 1.625; // 26px / 16px
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  &__closing {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-dark;
+    line-height: 1.75;
+  }
+
+  &__image-wrap {
+    @include lg {
+      position: sticky;
+      top: 140px; // header (112px) + buffer
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0;
+      object-fit: cover;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@use '../../styles/mixins' as *;
+
+// ─── Section 1: Text (dark bg) ────────────────────────────────────────────────
+.project-hero {
+  background-color: $color-dark;
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  &__inner {
+    @include container;
+  }
+
+  &__title {
+    font-family: $font-primary;
+    font-size: clamp(44px, 6vw, 80px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.05;
+    margin: 0 0 24px 0;
+  }
+
+  &__badge {
+    display: inline-block;
+    background: $color-white;
+    color: $color-dark;
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 18px 16px 14px;
+    margin-bottom: 28px;
+    line-height: 1;
+  }
+
+  &__description {
+    p {
+      font-family: $font-body;
+      font-size: 16px;
+      font-weight: 400;
+      color: $color-white;
+      line-height: 1.7;
+      margin: 0 0 1em 0;
+      max-width: 680px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Image section see ProjectGallery.scss

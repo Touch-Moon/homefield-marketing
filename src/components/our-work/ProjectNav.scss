@@ -1,0 +1,54 @@
+@use '../../styles/mixins' as *;
+
+// ─── Prev / Next project navigation ─────────────────────────────────────────
+// Original: .et_pb_section_2_tb_body — bg-white, pt-64, pb-64
+// Button: border-radius 8px, padding 8px 16px, border 1px solid #ccc (visual)
+
+.project-nav {
+  background-color: $color-white;
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  // Common button styles
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 16px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background: transparent;
+    color: $color-dark;
+    font-family: $font-secondary;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1;
+    min-height: 43px;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+
+    &:hover {
+      background-color: $color-dark;
+      border-color: $color-dark;
+      color: $color-white;
+    }
+
+    // Placeholder (maintains layout when only one button exists)
+    &--placeholder {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  &__arrow {
+    font-style: normal;
+  }
+}

@@ -1,0 +1,166 @@
+@use '../../styles/mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  CjCards — Reusable card grid component
+//
+//  padding-top can be injected from outside via CSS custom property:
+//    --cj-cards-pt-lg  (default: 5rem)
+//    --cj-cards-pt-xl  (default: 6rem)
+//
+//  When hero bleed compensation needed like photo-hero pages,
+//  override via inline style:
+//    style={{ "--cj-cards-pt-lg": "14rem", "--cj-cards-pt-xl": "12rem" }}
+// ═══════════════════════════════════════════════════════════════════════════
+
+.cj-cards {
+  background: $color-white;
+  position: relative;
+  z-index: 1;
+
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  @include md {
+    padding-bottom: 5rem;
+  }
+
+  @include lg {
+    padding-top: var(--cj-cards-pt-lg, 5rem);
+    padding-bottom: 5rem;
+  }
+
+  @include xl {
+    padding-top: var(--cj-cards-pt-xl, 6rem);
+    padding-bottom: 6rem;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__card {
+    position: relative;
+    overflow: hidden;
+    background: $color-bg-gray;
+    min-height: 380px;
+
+    &--dark {
+      background: $color-dark;
+    }
+
+    // Card rendered as <Link> — reset a tag default styles
+    &--link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+  }
+
+  // ── Front face ──────────────────────────────────────────────────────────────
+
+  &__card-front {
+    height: 100%;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    gap: 1.25rem;
+    text-align: center;
+
+    .cj-cards__card--dark & {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  &__card-tag {
+    display: block;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: $color-gold-alt;
+  }
+
+  &__card-heading {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    line-height: 1.2;
+    color: $color-dark;
+  }
+
+  &__card-body {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: rgba($color-white, 0.8);
+  }
+
+  // ── Hover overlay ─────────────────────────────────────────────────────────
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: $color-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    opacity: 0;
+    transition: opacity 280ms ease;
+
+    .cj-cards__card:hover & {
+      opacity: 1;
+    }
+  }
+
+  &__card-overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    text-align: center;
+  }
+
+  &__card-overlay-body {
+    color: rgba($color-white, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  &__card-pill {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba($color-white, 0.6);
+    border-radius: 999px;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+
+    &:hover {
+      background-color: $color-white;
+      color: $color-dark;
+      border-color: $color-white;
+    }
+  }
+}

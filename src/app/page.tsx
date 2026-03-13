@@ -1,65 +1,101 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+import Hero from "@/components/home/Hero";
+import { supabase } from "@/lib/supabase";
+import { featuredProjects as staticFeatured } from "@/data/projects";
+import type { Project } from "@/types";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Homefield Marketing — Grow Your Business",
+  description:
+    "Home-grown on the Canadian prairies, Homefield Marketing delivers proven marketing solutions — brand strategy, websites, SEO, video, and more — to help local prairie businesses grow.",
+  alternates: {
+    canonical: "https://homefieldmarketing.ca",
+  },
+  openGraph: {
+    title: "Homefield Marketing — Grow Your Business",
+    description:
+      "Home-grown on the Canadian prairies. Proven marketing solutions for local prairie businesses.",
+    url: "https://homefieldmarketing.ca",
+    type: "website",
+  },
+};
+
+// Below-fold components loaded lazily to reduce initial JS bundle
+const IntroText        = dynamic(() => import("@/components/home/IntroText"));
+const FeaturedWork     = dynamic(() => import("@/components/home/FeaturedWork"));
+const MarketingSolutions = dynamic(() => import("@/components/home/MarketingSolutions"));
+const ContactForm      = dynamic(() => import("@/components/home/ContactForm"));
+
+export const revalidate = 3600; // ISR — re-fetch every hour
+
+async function getFeaturedProjects(): Promise<Project[]> {
+  try {
+    const { data, error } = await supabase
+      .from("homefield_projects")
+      .select("*")
+      .eq("featured", true)
+      .order("display_order", { ascending: true })
+      .limit(3);
+
+    if (error || !data || data.length === 0) return staticFeatured;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return data.map((row: any) => ({
+      id: row.id,
+      slug: row.slug,
+      name: row.name,
+      category: row.category,
+      categories: Array.isArray(row.categories) && row.categories.length > 0
+        ? row.categories
+        : undefined,
+      description: row.description ?? "",
+      short_description: row.short_description ?? "",
+      hero_image: row.hero_image ?? "",
+      thumbnail_image: row.thumbnail_image ?? "",
+      featured: row.featured,
+      display_order: row.display_order,
+    }));
+  } catch {
+    return staticFeatured;
+  }
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MarketingAgency",
+  "name": "Homefield Marketing",
+  "url": "https://homefieldmarketing.ca",
+  "logo": "https://homefieldmarketing.ca/logo.svg",
+  "description":
+    "Home-grown on the Canadian prairies, Homefield Marketing helps local prairie businesses grow with proven marketing solutions.",
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Canadian Prairies",
+  },
+  "sameAs": [
+    "https://www.facebook.com/myHomefieldMarketing",
+    "https://www.instagram.com/homefieldmarketing/",
+    "https://www.linkedin.com/company/homefield-marketing",
+  ],
+};
+
+export default async function HomePage() {
+  const featuredProjects = await getFeaturedProjects();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Hero />
+      <IntroText />
+      <FeaturedWork projects={featuredProjects} />
+      <MarketingSolutions />
+      <div id="contact" style={{ scrollMarginTop: "112px" }}>
+        <ContactForm />
+      </div>
+    </>
   );
 }

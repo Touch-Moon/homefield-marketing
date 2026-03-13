@@ -1,0 +1,72 @@
+@use '../../styles/mixins' as *;
+
+// ─── Image gallery section ────────────────────────────────────────────────────────
+// Mobile: bg-white, pt-0, pb-0, image full-width
+// lg+:   split bg (dark 50% / white 50%) + pt-64 + pb-64 + image 8/12 centered
+//
+// lg+ math:
+//   container = 1440px, image = 8/12 × 1440 = 960px
+//   16:9 height = 960 × 9/16 = 540px
+//   total section height = 64 + 540 + 64 = 668px
+//   image center = 64 + 270 = 334px = 668 × 50% → dark/white boundary passes through image center
+
+.project-gallery {
+  // pt = pb → image center always at section 50% point = aligns with dark/white boundary
+  background: linear-gradient(to bottom, $color-dark 50%, $color-white 50%);
+  padding-top: 32px;
+  padding-bottom: 32px;
+
+  @include lg {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  // ul
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include lg {
+      width: calc(100% * 8 / 12);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // li
+  &__item {
+    padding-bottom: 32px;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    @include lg {
+      padding-bottom: 40px;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  // Image wrapper (maintains 16:9 ratio)
+  &__img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}

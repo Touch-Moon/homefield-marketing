@@ -1,0 +1,99 @@
+@use '../../styles/mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  privacy-page
+//  Structure: dark hero (text only) + white background prose section
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Hero ──────────────────────────────────────────────────────────────────
+
+.privacy-hero {
+  background-color: $color-dark;
+  padding-top: 72px;
+  padding-bottom: 72px;
+
+  @include lg {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.1;
+  }
+}
+
+// ── Prose ──────────────────────────────────────────────────────────────────
+
+.privacy-content {
+  background-color: $color-white;
+  padding-top: 72px;
+  padding-bottom: 96px;
+
+  @include lg {
+    padding-top: 96px;
+    padding-bottom: 128px;
+  }
+
+  &__inner {
+    @include container;
+    max-width: 800px;
+    margin-left: 0; // Left-aligned within container
+  }
+
+  // Common prose styles
+  h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  p {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-dark;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  ul, ol {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-dark;
+    line-height: 1.75;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      &:last-child { margin-bottom: 0; }
+    }
+  }
+
+  &__updated {
+    display: block;
+    font-family: $font-secondary;
+    font-size: 0.875rem;
+    color: rgba($color-dark, 0.5);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba($color-dark, 0.12);
+  }
+}

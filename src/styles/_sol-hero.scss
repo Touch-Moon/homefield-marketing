@@ -1,0 +1,111 @@
+@use 'mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  sol hero shared base styles
+//
+//  Used on pages:
+//    /solutions/[slug]       (solution-detail.scss)
+//    /customer-journey       (customer-journey.scss)
+//
+//  Defines hero grid, text typography, image column in common
+//  photo-hero overrides managed separately in _photo-hero.scss
+// ═══════════════════════════════════════════════════════════════════════════
+
+.sol {
+
+  // ── Hero 섹션 컨테이너 ───────────────────────────────────────────────────
+
+  &__hero {
+    background: $color-dark;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+
+    @include lg {
+      min-height: 720px;
+    }
+  }
+
+  &__hero-inner {
+    @include container;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &__hero-grid {
+    display: grid;
+    align-items: center;
+    gap: 0;
+    padding-bottom: 2rem;
+
+    @include lg {
+      grid-template-columns: 1fr 1fr;
+      gap: 6.875rem;
+      padding-bottom: 0;
+    }
+  }
+
+  // ─ Left text block ──────────────────────────────────────────────────────
+
+  &__tagline {
+    display: block;
+    color: $color-gold-alt;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 0.8125rem; // 13px
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding-bottom: 10px;
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 6.7vw, 6rem);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    color: $color-white;
+    line-height: 1.05;
+    padding-bottom: 32px;
+  }
+
+  &__hero-body {
+    color: rgba($color-white, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem; // 15px
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    max-width: 32.5rem; // 520px
+  }
+
+  // ─ Right image column ────────────────────────────────────────────────────
+
+  &__hero-image {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    order: -1; // Mobile: image appears above text
+
+    @include lg {
+      justify-content: flex-end;
+      margin: 0 0 0 auto;
+      order: 0;
+    }
+
+    img {
+      width: 100% !important;
+      max-width: 360px;
+      height: auto !important;
+      max-height: none;
+      padding-bottom: 2rem;
+
+      @include lg {
+        width: 100% !important;
+        max-width: none !important;
+        height: calc(100vh - 160px) !important;
+        max-height: 720px !important;
+        object-fit: contain;
+        padding-bottom: 0;
+      }
+    }
+  }
+}

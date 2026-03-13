@@ -1,0 +1,408 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/sol-hero';
+@use '../../styles/photo-hero';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  customer-journey  —  /customer-journey page exclusive styles
+//
+//  Two section types below hero
+//  ─────────────────────────────────────────────────────────────────────────
+//  Type 1 · full-width  (cj-cards)
+//    padding-top = 3 × base = 12rem  (< lg)
+//    padding-top = 5rem              (lg+, same as other pages)
+//    padding-top = 6rem              (xl+)
+//    full @include container width maintained
+//
+//  Type 2 · content-wrap  (cj-journey, cj-reporting)
+//    normal section-py values
+//    inner text block → same width constraint as sol-rep__content-wrap
+//      max-width: 100% (< lg)
+//      max-width: 50%  (lg+)
+//    both sections share this width for visual consistency
+// ═══════════════════════════════════════════════════════════════════════════
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  cj-help  —  "Homefield can help." content section
+//  White background text section below Awareness page hero
+//  left: heading + body + CTA  /  right: cj-hero-icon & hero photo bleed
+// ══════════════════════════════════════════════════════════════════════════
+
+.cj-help {
+  background: $color-white;
+  position: relative;
+  z-index: 2; // hero(z-index:3) 아래, cj-journey(z-index:1) 위
+
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  @include md {
+    padding-bottom: 5rem;
+  }
+
+  @include lg {
+    padding-top: 5rem;
+    padding-bottom: 6rem;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  // Constrain text to left half — right side reserved for cj-hero-icon + hero photo bleed
+  &__content-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  &__heading {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+
+    &+& {
+      margin-top: 1rem;
+    }
+  }
+
+  &__cta {
+    margin-top: 2rem;
+  }
+
+  // ── Right decoration icon — same pattern as sol-rep__talk-icon
+  // Different SVG injected per CJ subpage
+  &__deco {
+    display: none;
+
+    @include lg {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0; // from section top — icon height exceeds section so overflows downward
+      pointer-events: none;
+      z-index: 2;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  cj-hero-wave  —  wave decoration at bottom-right inside sol__hero section
+//  must render within hero z-index:2 context to appear above cj-help
+// ══════════════════════════════════════════════════════════════════════════
+
+.cj-hero-wave {
+  display: none;
+
+  @include lg {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+}
+
+
+// ── 공유 content-wrap 너비 — sol-rep__content-wrap 과 동일 ─────────────────
+// cj-journey__content-wrap, cj-reporting__content-wrap 에 공통 적용
+
+%cj-content-wrap {
+  max-width: 100%;
+
+  @include lg {
+    max-width: 100%%;
+  }
+}
+
+
+// ── hero icon (map pin circular icon) ─────────────────────────────────────────
+// same positioning pattern as sol-rep__badge:
+//   bottom: -(icon height/2) → half above/below hero bottom boundary
+//   left: calc(50% + 3.4375rem) → half of sol__hero-grid gap(6.875rem)
+//     = left boundary of right column (sol__hero-image)
+.cj-hero-icon {
+  display: none; // 모바일 숨김
+
+  @include lg {
+    display: block;
+    position: absolute;
+    bottom: -96px; // 192px 아이콘의 절반 → 상하 반반 (sol-rep__badge 동일)
+    left: calc(50% + 3.4375rem); // 오른쪽 컬럼 왼쪽 경계 (gap/2)
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    width: 192px;
+    height: 192px;
+
+    img {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+}
+
+
+// .cj-cards styles moved to CjCards component:
+// src/components/shared/CjCards.scss
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  sol__benefits / sol__content — Reputation CJ page exclusive
+//  same structure as solution-detail.scss, defined here to avoid duplicate imports
+// ══════════════════════════════════════════════════════════════════════════
+
+.sol {
+
+  // ── Benefits ─────────────────────────────────────────────────────────────
+
+  &__benefits {
+    background: $color-white;
+    @include section-py(4rem, 6rem, 6rem);
+  }
+
+  &__benefits-inner {
+    @include container;
+  }
+
+  &__benefits-grid {
+    display: grid;
+    gap: 2rem;
+
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  &__benefit {
+    text-align: left;
+  }
+
+  &__benefit-title {
+    padding-right: 2rem;
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.3;
+    padding-bottom: 0.75rem;
+  }
+
+  &__benefit-body {
+    color: rgba($color-dark, 0.7);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+
+  // ── Content ───────────────────────────────────────────────────────────────
+
+  &__content {
+    background: $color-bg-gray;
+    @include section-py(4rem, 5rem, 6rem);
+  }
+
+  &__content-inner {
+    @include container;
+  }
+
+  &__content-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  &__content-heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__content-body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  TYPE 2 ·  cj-journey  —  Our Customer Journey navigation menu
+// ══════════════════════════════════════════════════════════════════════════
+
+.cj-journey {
+  background: $color-white;
+  position: relative;
+  z-index: 1; // cj-reporting__image(z-index:5)가 이 위로 올라올 수 있도록
+  @include section-py(4rem, 5rem, 6rem);
+
+  // on lg+, cj-reporting image floats within white area
+  // increase padding-bottom to reserve buffer for image bleed
+  @include lg {
+    padding-bottom: 12rem;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__nav {
+    width: fit-content;
+    margin: 0.75rem auto 0;
+    border: 1px solid rgba($color-dark, 0.1);
+    border-radius: 1rem;
+    padding: 1.75rem 2rem 2rem;
+    position: relative;
+  }
+
+  // ── title spanning across border-top center ────────────────────────────────────
+
+  &__nav-heading {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: $color-white;
+    padding: 0.2rem 1.25rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: $color-dark;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  // ── Button row ────────────────────────────────────────────────────────────
+
+  &__nav-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+  }
+
+  &__nav-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.375rem;
+    background: $color-bg-gray;
+    border-radius: 0.625rem;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: $color-dark;
+    text-decoration: none;
+    transition: background 200ms ease, color 200ms ease;
+
+    &:hover,
+    &--active {
+      background: $color-dark;
+      color: $color-white;
+    }
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  TYPE 2 ·  cj-reporting  —  content-wrap width pattern (2/2)
+// ══════════════════════════════════════════════════════════════════════════
+
+.cj-reporting {
+  background: $color-bg-gray;
+  position: relative;
+  overflow: visible; // 이미지가 섹션 위로 bleed 되도록 허용
+
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  @include md {
+    padding-bottom: 5rem;
+  }
+
+  @include lg {
+    // padding-top 은 base(4rem) 유지 — 이미지 위 약간의 gray 여백
+    padding-bottom: 0;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center; // 모바일
+
+    @include lg {
+      grid-template-columns: 1fr 1fr;
+      gap: 6.875rem;
+      align-items: start; // 데스크탑: 이미지 독립적 위치를 위해 start 정렬
+    }
+  }
+
+  // sol-rep__content-wrap 과 동일 너비 제약 — 텍스트 컬럼에 적용
+  &__content-wrap {
+    @extend %cj-content-wrap;
+
+    @include lg {
+      padding-top: 5rem; // 이미지가 위로 빠진 만큼 텍스트를 아래로 밀어 수직 정렬
+    }
+  }
+
+  &__heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+
+    &+& {
+      margin-top: 1rem;
+    }
+  }
+
+  &__image {
+    position: relative;
+    z-index: 5; // 앞 섹션(cj-journey) 위에 렌더링
+
+    @include lg {
+      // cj-journey has 12rem white buffer, so
+      // -8rem bleed → image top stays within white area (no gray overlap)
+      margin-top: -8rem;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}

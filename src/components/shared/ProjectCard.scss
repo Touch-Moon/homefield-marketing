@@ -1,0 +1,63 @@
+@use '../../styles/mixins' as *;
+
+.project-card {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 10;
+  }
+
+  &__image {
+    object-fit: cover;
+    transition: transform 500ms;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover &__image { transform: scale(1.05); }
+
+  &__info {
+    background: $color-dark;
+    color: $color-white;
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    color: $color-white;
+    line-height: 26px;
+    margin-bottom: 1rem;
+  }
+
+  &__cta {
+    display: inline-block;
+    padding: 7px 1rem;
+    border: 1px solid $color-white;
+    border-radius: 9999px;
+    font-family: var(--font-nav);
+    font-size: 14px;
+    font-weight: 600;
+    color: $color-white;
+    transition: all 300ms;
+  }
+
+  &:hover &__cta {
+    background: $color-white;
+    color: $color-dark;
+  }
+}

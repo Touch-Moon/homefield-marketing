@@ -1,0 +1,290 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/sol-hero';
+@use '../../../styles/photo-hero';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  solution-detail  — /solutions/[slug] full layout
+//
+//  Two hero types:
+//    standard  : SVG icon + benefits + content (8 pages)
+//    photo     : real photo hero + custom sections per page (websites, reputation)
+//               controlled via .photo-hero-page class + --hero-img CSS variable
+// ═══════════════════════════════════════════════════════════════════════════
+
+
+// ── .sol — Benefits · Content (standard type only, hero is in _sol-hero.scss) ──
+
+.sol {
+
+  // ── Benefits (standard type only) ──────────────────────────────────────
+
+  &__benefits {
+    background: $color-white;
+    @include section-py(4rem, 6rem, 6rem);
+  }
+
+  &__benefits-inner {
+    @include container;
+  }
+
+  &__benefits-grid {
+    display: grid;
+    gap: 2rem;
+
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  &__benefit {
+    text-align: left;
+  }
+
+  &__benefit-bar {
+    display: block;
+    width: 2.5rem; // 40px
+    height: 3px;
+    background: $color-gold-alt;
+    margin: 0 0 1.25rem;
+  }
+
+  &__benefit-title {
+    padding-right: 2rem;
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.3;
+    padding-bottom: 2rem;
+  }
+
+
+  // ── Content (standard type only) ───────────────────────────────────────
+
+  &__content {
+    background: $color-bg-gray;
+    @include section-py(4rem, 5rem, 6rem);
+  }
+
+  &__content-inner {
+    @include container;
+  }
+
+  &__content-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  &__content-heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__content-body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem; // 15px
+    line-height: 1.8;
+  }
+
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  sol-web  —  /solutions/websites exclusive sections
+// ═══════════════════════════════════════════════════════════════════════════
+
+.sol-web {
+
+  // ── eCommerce section (white) ─────────────────────────────────────────────
+
+  &__ecommerce {
+    background: $color-white;
+    position: relative;
+    z-index: 1; // photo-hero 블리드 이미지(z-index:2)가 올라옴
+    @include section-py(4rem, 5rem, 6rem);
+  }
+
+  &__ecommerce-inner {
+    @include container;
+  }
+
+  &__ecommerce-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  &__ecommerce-heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__ecommerce-body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+
+    &+& {
+      margin-top: 1rem;
+    }
+  }
+
+  &__ecommerce-cta {
+    margin-top: 2rem;
+  }
+
+
+  // ── Quarterly Reporting section (gray) ──────────────────────────────────
+
+  &__quarterly {
+    background: $color-bg-gray;
+    @include section-py(4rem, 5rem, 6rem);
+  }
+
+  &__quarterly-inner {
+    @include container;
+  }
+
+  &__quarterly-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  &__quarterly-heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__quarterly-body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  sol-rep  —  /solutions/reputation-management exclusive sections
+// ═══════════════════════════════════════════════════════════════════════════
+
+.sol-rep {
+
+  // ── "Homefield can help." section (white) ────────────────────────────────
+
+  &__content {
+    background: $color-white;
+    position: relative;
+    z-index: 1; // photo-hero bleed image (z-index:2) appears above
+    overflow: hidden; // talk icon right overhang clipping (prevents horizontal scroll)
+    @include section-py(4rem, 5rem, 6rem);
+  }
+
+  &__content-inner {
+    @include container;
+  }
+
+  &__content-wrap {
+    max-width: 100%;
+
+    @include lg {
+      max-width: 50%;
+    }
+  }
+
+  // ── Hero boundary badge (thumbs up icon) ─────────────────────────────────────
+  // Mobile: hidden (photo-hero is overflow:hidden so already clipped)
+  // Desktop: bottom of hero, centered vertically / centered on right column left boundary
+  //   left: 50%(section center) + 3.4375rem(gap/2 = 6.875rem/2) = right column left boundary
+  &__badge {
+    display: none;
+
+    @include lg {
+      display: block;
+      position: absolute;
+      bottom: -96px; // half of 192px icon → top and bottom halves
+      left: calc(50% + 3.4375rem); // right column left boundary
+      transform: translateX(-50%); // center icon on boundary
+      z-index: 3; // above content(z:1), inside hero(z:2)
+      pointer-events: none;
+    }
+  }
+
+  &__stars {
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  &__heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  &__body {
+    color: rgba($color-dark, 0.8);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+
+    &+& {
+      margin-top: 1rem;
+    }
+  }
+
+  &__cta {
+    margin-top: 2rem;
+  }
+
+  // ── Right decoration icon (talk bubble) ───────────────────────────────────
+  // Mobile/tablet (< lg): hidden
+  // Desktop (lg+): 356px icon, right: -178px(half overhang), bottom: 32px
+  //   → exactly half is always visible at any viewport width
+  //   → clipped without horizontal scroll via section overflow:hidden
+  &__talk-icon {
+    display: none;
+
+    @include lg {
+      display: block;
+      position: absolute;
+      right: 0;
+      transform: translateX(50%); // wrapper width 50% → always half overhang
+      bottom: -40px;
+      pointer-events: none;
+    }
+  }
+
+  // wave — overlays horizontally centered at ~22% from top of talk bubble
+  &__wave {
+    position: absolute !important;
+    top: 22%;
+    left: -50%;
+    transform: translateX(15%);
+  }
+}

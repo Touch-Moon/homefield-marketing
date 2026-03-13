@@ -1,0 +1,454 @@
+@use '../../styles/mixins' as *;
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101; // always above mobile overlay (z-index: 100)
+  background: $color-dark;
+
+  &__inner {
+    position: relative; // positioning context for CTA
+    max-width: $max-width;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    height: 82px;
+
+    @include md {
+      padding: 0 2.5rem;
+    }
+
+    @include lg {
+      height: 112px;
+    }
+
+    @include xl {
+      padding: 0 1rem;
+    }
+  }
+
+  &__logo-link {
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+
+  &__logo {
+    height: 40px;
+    width: auto;
+
+    @include lg {
+      height: 47px;
+    }
+  }
+
+  // ── Desktop Nav — always centered regardless of logo/CTA size
+  &__nav {
+    display: none;
+    align-items: center;
+
+    @include lg {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__nav-link {
+    padding: 0.5rem 1rem;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    transition: opacity 200ms;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__solutions-btn {
+    position: relative;
+    padding: 0.5rem 1rem;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+  }
+
+  &__solutions-underline {
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    height: 2px;
+    background: $color-gold-alt;
+    width: 8px;
+    transition: width 400ms;
+  }
+
+  &__solutions-btn:hover &__solutions-underline {
+    width: 48px;
+  }
+
+  // ── Desktop CTA
+  // margin-left: auto → push to right edge
+  // flex-shrink: 0    → CTA maintains its size when search expands
+  //                     (excess width absorbed by shrinking left gap → nav stays centered)
+  &__cta {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+    position: relative;
+
+    @include lg {
+      display: flex;
+      margin-left: auto;
+    }
+  }
+
+  &__icon-btn {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: 1px solid $color-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-white;
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 200ms;
+
+    &:hover {
+      background: $color-white;
+      color: $color-dark;
+    }
+  }
+
+  // ── Search form — inline, icon fixed on right, expands leftward only
+  &__search {
+    // flex-direction: row-reverse → DOM order is [button][input] but
+    // visually button appears on the right, input expands to the left
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-shrink: 0;
+
+    height: 31px;
+    border-radius: 9999px;
+    border: 1px solid $color-white;
+    background: transparent;
+    overflow: hidden;
+
+    // Closed state: only button size (31px) visible
+    width: 31px;
+    transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      background 200ms ease;
+
+    &--open {
+      width: 140px;
+      background: $color-white;
+    }
+  }
+
+  // Icon button — always fixed on right (first item in row-reverse)
+  &__search-btn {
+    flex-shrink: 0;
+    width: 29px;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $color-white;
+    transition: color 200ms;
+
+    .site-header__search--open & {
+      color: $color-dark;
+    }
+  }
+
+  // Text input — expands to the left (second item in row-reverse)
+  &__search-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $color-dark;
+    font-family: $font-secondary;
+    font-size: 13px;
+    padding: 0 0 0 12px;
+    height: 100%;
+
+    &::placeholder {
+      color: rgba($color-dark, 0.4);
+    }
+  }
+
+  &__cta-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 11px;
+    height: 31px;
+    border: 1px solid $color-white;
+    border-radius: 9999px;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 200ms;
+
+    &:hover {
+      background: $color-white;
+      color: $color-dark;
+    }
+  }
+
+  // ── Mobile Hamburger
+  &__hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    margin-left: auto;   // push to right edge
+    position: relative;  // z-index stacking context
+
+    @include lg {
+      display: none;
+    }
+
+  }
+
+  &__hamburger-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+
+    span {
+      position: absolute;
+      left: 0;
+      width: 32px;
+      height: 3px;
+      background: $color-white;
+      border-radius: 2px;
+      // On close: first release rotate (0ms) → then return to position (250ms delay)
+      transition: top 250ms ease 250ms, transform 250ms ease 0ms;
+
+      &:first-child { top: 7px; }
+      &:last-child  { top: 22px; }
+    }
+  }
+
+  // X state: when menu is open
+  // On open: first move to center (0ms) → then rotate (250ms delay)
+  &__hamburger--open &__hamburger-icon span {
+    top: 14px; // (32px - 3px) / 2 ≈ 14.5 → 14px
+    transition: top 250ms ease 0ms, transform 250ms ease 250ms;
+
+    &:first-child { transform: rotate(45deg); }
+    &:last-child  { transform: rotate(-45deg); }
+  }
+
+  // ── Mega Dropdown
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $color-white;
+
+    // Hidden by default — controlled via CSS instead of conditional rendering
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease,
+      visibility 0ms linear 150ms; // on hide: visibility becomes hidden after delay
+
+    &--open {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition:
+        opacity 150ms ease,
+        transform 150ms ease,
+        visibility 0ms linear 0ms; // on show: visibility becomes visible immediately
+    }
+  }
+
+  &__dropdown-inner {
+    max-width: $max-width;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+
+    @include md {
+      padding: 0 2.5rem;
+    }
+
+    @include xl {
+      padding: 0 5rem;
+    }
+  }
+
+  &__dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__dropdown-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__dropdown-item {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-nav);
+    color: $color-dark;
+    text-decoration: none;
+    transition: color 200ms;
+
+    &:hover {
+      color: $color-gold-alt;
+    }
+  }
+}
+
+// ── Mobile Nav Overlay
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  background: $color-dark;
+  // site-header (z-101, h-82px) overlaps top, so reserve matching top padding
+  padding-top: 82px;
+
+  &__solutions-btn {
+    width: 100%;
+    padding: 1rem;
+    background: $color-dark;
+    border: none;
+    border-top: 1px solid #ffffff1a;
+    border-bottom: 1px solid #ffffff1a;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &__solutions-title {
+    display: block;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  &__gold-bar {
+    display: block;
+    height: 2px;
+    background: $color-gold-alt;
+    margin-top: 6px;
+    transition: width 300ms;
+  }
+
+  &__solutions-list {
+    background: $color-white;
+  }
+
+  &__solutions-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    color: $color-dark;
+    font-family: var(--font-nav);
+    font-size: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-decoration: none;
+    transition: color 150ms;
+
+    &:hover {
+      color: $color-gold-alt;
+    }
+  }
+
+  &__nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    color: $color-white;
+    font-family: var(--font-nav);
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: $color-dark;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    transition: opacity 200ms;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: $color-dark;
+  }
+
+  // Mobile search — same behavior as desktop search, expands leftward only
+  &__search {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-shrink: 0;
+
+    height: 31px;
+    border-radius: 9999px;
+    border: 1px solid $color-white;
+    background: transparent;
+    overflow: hidden;
+
+    width: 31px;
+    transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      background 200ms ease;
+
+    &--open {
+      // max-width: accounts for CTA row padding (20px×2) + other element widths
+      // expands within overlay width without overlapping left elements
+      width: 140px;
+      background: $color-white;
+    }
+  }
+}

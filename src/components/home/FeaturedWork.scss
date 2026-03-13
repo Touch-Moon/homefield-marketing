@@ -1,0 +1,25 @@
+@use '../../styles/mixins' as *;
+
+.featured-work {
+  background: #F2F3F3;
+  @include section-py(4rem, 5rem, 6rem);
+
+  &__inner  { @include container; }
+
+  &__heading {
+    font-size: var(--fs-h2);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    @include md { grid-template-columns: repeat(2, 1fr); }
+    @include xl { grid-template-columns: repeat(3, 1fr); }
+  }
+}
