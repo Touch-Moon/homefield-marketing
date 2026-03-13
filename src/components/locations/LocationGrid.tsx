@@ -1,6 +1,7 @@
 import { locations, PROVINCE_ORDER, PROVINCE_LABELS } from "@/data/locations";
 import type { Province as FilterProvince } from "@/components/locations/LocationFilter";
 import LocationCard from "./LocationCard";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 import "./LocationGrid.scss";
 
 interface LocationGridProps {
@@ -22,7 +23,7 @@ export default function LocationGrid({ activeProvince }: LocationGridProps) {
             (loc) => loc.province === province
           );
           return (
-            <section key={province} className="loc-grid__province">
+            <AnimatedSection key={province} as="section" className="loc-grid__province">
               <h2 className="loc-grid__heading">
                 {PROVINCE_LABELS[province]}
               </h2>
@@ -33,7 +34,7 @@ export default function LocationGrid({ activeProvince }: LocationGridProps) {
                   </li>
                 ))}
               </ul>
-            </section>
+            </AnimatedSection>
           );
         })}
       </div>

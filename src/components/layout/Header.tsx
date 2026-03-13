@@ -10,6 +10,7 @@ import { mainNav, headerCTA } from "@/data/navigation";
 import type { NavItem } from "@/types";
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
@@ -24,6 +25,13 @@ export default function Header() {
   const mobileSearchFormRef = useRef<HTMLFormElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  // ── Scroll-shrink: detect scroll position to shrink header on desktop
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // ── Mobile menu scroll lock (rAF + wheel + touch + keyboard + 2-frame flush)
   useEffect(() => {
@@ -168,7 +176,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="site-header" role="banner">
+      <header className={`site-header${scrolled ? " site-header--scrolled" : ""}`} role="banner">
 
         {/* ── Top bar ── */}
         <div className="site-header__inner">

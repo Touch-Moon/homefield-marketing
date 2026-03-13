@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import type { Metadata } from "next";
 import Button from "@/components/shared/Button";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 import "./careers.scss";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function CareersPage() {
           <div className="sol__hero-grid">
 
             {/* 좌 — 텍스트 */}
-            <div>
+            <AnimatedSection>
               <h1 className="sol__title">Careers</h1>
               <span className="sol__tagline">One of us. One of us.</span>
               <p className="sol__hero-body">
@@ -38,7 +39,7 @@ export default function CareersPage() {
                 that resume in. We will be happy to show you.
               </p>
               <Button href="#careers-jobs" label="See Open Positions" variant="pill-white" />
-            </div>
+            </AnimatedSection>
 
             {/* Right — Team photo */}
             <div className="sol__hero-image">
@@ -82,7 +83,7 @@ export default function CareersPage() {
           <div className="careers-apply__grid">
 
             {/* Left — Text */}
-            <div>
+            <AnimatedSection>
               <h2 className="careers-apply__heading">
                 Don&apos;t see anything right now?
               </h2>
@@ -90,7 +91,7 @@ export default function CareersPage() {
                 Send us your resume anyway. We&apos;re always on the lookout
                 for great teammates.
               </p>
-            </div>
+            </AnimatedSection>
 
             {/* Right — Application form */}
             <form

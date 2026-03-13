@@ -1,4 +1,5 @@
 import LocationsClient from "@/components/locations/LocationsClient";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 export const metadata = {
   title: "Locations | Homefield Marketing",
@@ -12,10 +13,12 @@ export default function LocationsPage() {
       {/* Hero */}
       <section className="page-hero">
         <div className="page-hero__inner">
-          <h1 className="page-hero__heading">Locations</h1>
-          <p className="page-hero__sub">
+          <AnimatedSection as="h1" className="page-hero__heading">
+            Locations
+          </AnimatedSection>
+          <AnimatedSection as="p" className="page-hero__sub" delay={0.1}>
             Get in touch with one of many locations across Western Canada.
-          </p>
+          </AnimatedSection>
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import Button from "@/components/shared/Button";
 import CjCards from "@/components/shared/CjCards";
 import type { CjCardItem } from "@/components/shared/CjCards";
 import JourneyTabs from "./JourneyTabs";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 import "./customer-journey.scss";
 
 export const metadata: Metadata = {
@@ -76,7 +77,7 @@ export default function CustomerJourneyPage() {
           <div className="sol__hero-grid">
 
             {/* Left — Text */}
-            <div>
+            <AnimatedSection>
               <h1 className="sol__title">The Modern Customer Journey</h1>
               <span className="sol__tagline">Understanding</span>
               <p className="sol__hero-body">
@@ -85,7 +86,7 @@ export default function CustomerJourneyPage() {
                 at every stage.
               </p>
               <Button href="/contact" label="Get Started" variant="pill-white" />
-            </div>
+            </AnimatedSection>
 
             {/* Right — Hero image (desktop bleed) */}
             <div className="sol__hero-image">
@@ -102,22 +103,26 @@ export default function CustomerJourneyPage() {
       </section>
 
       {/* ── TYPE 1 — full-width card grid ───────────────────────────── */}
-      <CjCards
-        cards={cards}
-        style={{
-          "--cj-cards-pt-lg": "14rem",
-          "--cj-cards-pt-xl": "12rem",
-        } as CSSProperties}
-      />
+      <AnimatedSection y={30}>
+        <CjCards
+          cards={cards}
+          style={{
+            "--cj-cards-pt-lg": "14rem",
+            "--cj-cards-pt-xl": "12rem",
+          } as CSSProperties}
+        />
+      </AnimatedSection>
 
       {/* ── TYPE 2 — Our Customer Journey tabs (content-wrap) ──────────── */}
-      <JourneyTabs />
+      <AnimatedSection y={30}>
+        <JourneyTabs />
+      </AnimatedSection>
 
       {/* ── TYPE 2 — Transparent Reporting (content-wrap) ────────────── */}
       <section className="cj-reporting">
         <div className="cj-reporting__inner">
           <div className="cj-reporting__grid">
-            <div className="cj-reporting__content-wrap">
+            <AnimatedSection className="cj-reporting__content-wrap">
               <h2 className="cj-reporting__heading">Transparent Reporting</h2>
               <p className="cj-reporting__body">
                 It&apos;s what makes us different. We want to let you look
@@ -127,7 +132,7 @@ export default function CustomerJourneyPage() {
                 analytics, website analytics, and insights to understand how
                 your investments are performing and where to go next.
               </p>
-            </div>
+            </AnimatedSection>
             <div className="cj-reporting__image">
               <Image
                 src={REPORTING_IMAGE}

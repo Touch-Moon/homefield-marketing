@@ -7,6 +7,7 @@ import type { Project } from "@/types";
 import ProjectHero from "@/components/our-work/ProjectHero";
 import ProjectGallery from "@/components/our-work/ProjectGallery";
 import ProjectNav from "@/components/our-work/ProjectNav";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 export const revalidate = 3600;
 
@@ -133,10 +134,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <main>
       {/* 1. Hero: dark bg — H1 + category badge + description */}
-      <ProjectHero project={project} />
+      <AnimatedSection>
+        <ProjectHero project={project} />
+      </AnimatedSection>
 
       {/* 2. Gallery: white bg — 16:9 images stacked vertically */}
-      <ProjectGallery images={galleryImages} projectName={project.name} />
+      <AnimatedSection delay={0.1} y={30}>
+        <ProjectGallery images={galleryImages} projectName={project.name} />
+      </AnimatedSection>
 
       {/* 3. Nav: white bg — ← Prev / Next → */}
       <ProjectNav

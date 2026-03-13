@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Button from "@/components/shared/Button";
 import ContactForm from "@/components/home/ContactForm";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import AnimatedGrid from "@/components/shared/AnimatedGrid";
 import { solutions, getSolutionBySlug } from "@/data/solutions";
 import type { Metadata } from "next";
 import "./solution-detail.scss";
@@ -65,7 +67,7 @@ export default async function SolutionPage({
           <div className="sol__hero-grid">
 
             {/* Left — text */}
-            <div>
+            <AnimatedSection>
               <h1 className="sol__title">{solution.name}</h1>
               <span className="sol__tagline">{solution.tagline}</span>
               {heroParagraphs.map((para, i) => (
@@ -76,7 +78,7 @@ export default async function SolutionPage({
                 label={solution.ctaText}
                 variant="pill-white"
               />
-            </div>
+            </AnimatedSection>
 
             {/* Right — illustration or photo */}
             <div className="sol__hero-image">
@@ -111,13 +113,13 @@ export default async function SolutionPage({
       {!isPhoto && (
         <section className="sol__benefits">
           <div className="sol__benefits-inner">
-            <div className="sol__benefits-grid">
+            <AnimatedGrid className="sol__benefits-grid" stagger={0.08} y={24}>
               {solution.benefits.map((benefit) => (
                 <div key={benefit} className="sol__benefit">
                   <h3 className="sol__benefit-title">{benefit}</h3>
                 </div>
               ))}
-            </div>
+            </AnimatedGrid>
           </div>
         </section>
       )}
@@ -126,10 +128,10 @@ export default async function SolutionPage({
       {!isPhoto && (
         <section className="sol__content">
           <div className="sol__content-inner">
-            <div className="sol__content-wrap">
+            <AnimatedSection className="sol__content-wrap">
               <h2 className="sol__content-heading">{solution.contentHeading}</h2>
               <p className="sol__content-body">{solution.contentBody}</p>
-            </div>
+            </AnimatedSection>
           </div>
         </section>
       )}

@@ -1,4 +1,5 @@
 import ContactForm from "@/components/home/ContactForm";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 export const metadata = {
   title: "Contact Us | Homefield Marketing",
@@ -11,11 +12,13 @@ export default function ContactPage() {
     <main>
       <section className="page-hero">
         <div className="page-hero__inner">
-          <h1 className="page-hero__heading">Contact Us</h1>
-          <p className="page-hero__sub">
+          <AnimatedSection as="h1" className="page-hero__heading">
+            Contact Us
+          </AnimatedSection>
+          <AnimatedSection as="p" className="page-hero__sub" delay={0.1}>
             Ready to grow your business? We&apos;d love to hear from you.
             Fill out the form below and we&apos;ll be in touch shortly.
-          </p>
+          </AnimatedSection>
         </div>
       </section>
 

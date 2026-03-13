@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import Button from "@/components/shared/Button";
 import ContactForm from "@/components/home/ContactForm";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 import "./about.scss";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function AboutPage() {
           <div className="sol__hero-grid">
 
             {/* Left — text */}
-            <div>
+            <AnimatedSection>
               <h1 className="sol__title">About Us</h1>
               <span className="sol__tagline">Home-grown on the Canadian prairies</span>
               <p className="sol__hero-body">
@@ -42,7 +43,7 @@ export default function AboutPage() {
                 their story.
               </p>
               <Button href="#contact" label="Get Started" variant="pill-white" />
-            </div>
+            </AnimatedSection>
 
             {/* Right — hero image */}
             <div className="sol__hero-image">
@@ -62,7 +63,7 @@ export default function AboutPage() {
       {/* ── Where we came from ────────────────────────────────────────────── */}
       <section className="about-story">
         <div className="about-story__inner">
-          <div className="about-story__body">
+          <AnimatedSection className="about-story__body">
             <h2 className="about-story__heading">Where we came from.</h2>
             <p>
               Homefield Marketing was born out of a desire to bring big-city
@@ -87,7 +88,7 @@ export default function AboutPage() {
               results that matter — for businesses that matter to their
               communities.
             </p>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -97,7 +98,7 @@ export default function AboutPage() {
           <div className="about-why__grid">
 
             {/* Left — text */}
-            <div>
+            <AnimatedSection>
               <h2 className="about-why__heading">Why work with us?</h2>
               <p className="about-why__subtitle">
                 There are a lot of marketing agencies out there. Here&apos;s
@@ -136,17 +137,17 @@ export default function AboutPage() {
                 we&apos;d love to hear from you. Let&apos;s build something
                 great together.
               </p>
-            </div>
+            </AnimatedSection>
 
             {/* Right — image */}
-            <div className="about-why__image-wrap">
+            <AnimatedSection className="about-why__image-wrap" delay={0.15}>
               <Image
                 src={WHY_IMAGE}
                 alt="Why work with Homefield Marketing"
                 width={706}
                 height={948}
               />
-            </div>
+            </AnimatedSection>
 
           </div>
         </div>

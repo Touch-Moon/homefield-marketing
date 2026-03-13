@@ -1,4 +1,6 @@
 import SolutionCard from "@/components/shared/SolutionCard";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import AnimatedGrid from "@/components/shared/AnimatedGrid";
 import { solutions } from "@/data/solutions";
 
 export const metadata = {
@@ -12,21 +14,23 @@ export default function SolutionsPage() {
     <main>
       <section className="page-hero">
         <div className="page-hero__inner">
-          <h1 className="page-hero__heading">Marketing Solutions</h1>
-          <p className="page-hero__sub">
+          <AnimatedSection as="h1" className="page-hero__heading">
+            Marketing Solutions
+          </AnimatedSection>
+          <AnimatedSection as="p" className="page-hero__sub" delay={0.1}>
             We offer a full suite of marketing services to help prairie
             businesses grow, connect, and stand out.
-          </p>
+          </AnimatedSection>
         </div>
       </section>
 
       <section className="page-section--white">
         <div className="page-section__inner">
-          <div className="solutions-grid">
+          <AnimatedGrid className="solutions-grid" stagger={0.07}>
             {solutions.map((solution) => (
               <SolutionCard key={solution.slug} solution={solution} />
             ))}
-          </div>
+          </AnimatedGrid>
         </div>
       </section>
     </main>
